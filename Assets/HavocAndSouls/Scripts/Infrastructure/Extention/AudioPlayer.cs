@@ -5,7 +5,7 @@
 using System;
 using UnityEngine;
 
-namespace StalkerZero.Infrastructure
+namespace HavocAndSouls.Infrastructure
 {
     public class AudioPlayer : MonoBehaviour
     {

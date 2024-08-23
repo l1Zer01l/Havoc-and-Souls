@@ -23,5 +23,6 @@ namespace HavocAndSouls.Infrastructure
             return transform.GetComponent<T>();
         }
 #endif
+
     }
 }

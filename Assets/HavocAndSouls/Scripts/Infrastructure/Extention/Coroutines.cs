@@ -4,7 +4,7 @@
 
 using UnityEngine;
 
-namespace StalkerZero.Infrastructure
+namespace HavocAndSouls.Infrastructure
 {
     public class Coroutines : MonoBehaviour
     {
