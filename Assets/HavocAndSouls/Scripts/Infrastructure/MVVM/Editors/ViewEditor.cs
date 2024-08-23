@@ -8,6 +8,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
+using System.Reflection;
 
 namespace HavocAndSouls.Infrastructure.MVVM.Editors
 {
@@ -55,6 +57,8 @@ namespace HavocAndSouls.Infrastructure.MVVM.Editors
 
         public override void OnInspectorGUI()
         {
+            DrawSerializeFieldView();
+
             m_cachedViewModelTypes = TypeCache.GetTypesDerivedFrom<IViewModel>();
 
             if (!m_isParentView.boolValue)
@@ -265,6 +269,19 @@ namespace HavocAndSouls.Infrastructure.MVVM.Editors
             }
 
             return null;
+        }
+
+        private void DrawSerializeFieldView()
+        {
+            var serializeFields = m_view.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                                                  .Where(field => field.GetAttribute(typeof(SerializeField)) != null);
+
+            foreach (var serializeField in serializeFields)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(serializeField.Name), new GUIContent(serializeField.Name));              
+            }
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

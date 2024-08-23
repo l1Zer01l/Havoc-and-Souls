@@ -2,14 +2,10 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using HavocAndSouls.Infrastructure.MVVM;
-
 namespace HavocAndSouls
 {
-    public interface IUIRootViewModel : IViewModel    
+    public class UIMainMenuView : SceneUIView
     {
-        void ShowLoadingScreen();
-        void HideLoadingScreen();
-        void AttachSceneUI(SceneUIView uIViewModel);
+
     }
 }

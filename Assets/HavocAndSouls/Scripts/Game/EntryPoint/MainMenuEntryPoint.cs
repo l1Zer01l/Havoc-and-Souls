@@ -14,6 +14,8 @@ namespace HavocAndSouls
 
         public IEnumerator Intialization(DIContainer parentContainer)
         {
+            m_container = parentContainer;
+
             RegisterService(m_container);
             RegisterViewModel(m_container);
             BindView(m_container);
@@ -33,7 +35,14 @@ namespace HavocAndSouls
         private void BindView(DIContainer container)
         {
             var loadService = container.Resolve<LoadService>();
-            
+
+            //Load and Bind UIMainMenuView
+            var uIRootViewModel = container.Resolve<IUIRootViewModel>();
+            var uIMainMenuPrefab = loadService.LoadPrefab<UIMainMenuView>(LoadService.PREFAB_UI_MAIN_MENU);
+            var uIMainMenuView = Object.Instantiate(uIMainMenuPrefab);
+            //TODO: bind ViewModel
+
+            uIRootViewModel.AttachSceneUI(uIMainMenuView);
         }
     }
 }

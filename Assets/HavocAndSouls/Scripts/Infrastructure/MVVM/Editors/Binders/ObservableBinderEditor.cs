@@ -32,9 +32,7 @@ namespace HavocAndSouls.Infrastructure.MVVM.Editors
 
         private bool IsValidProperty(System.Type propertyType)
         {
-            var localArgumentType = propertyType.GetGenericArguments().First();
-
-            if(localArgumentType != m_observableBinder.ArgumentType && !m_observableBinder.ArgumentType.IsAssignableFrom(localArgumentType))
+            if(propertyType.GetGenericArguments().First() != m_observableBinder.ArgumentType)
                 return false;
 
             return propertyType.GetInterfaces().Where(i => i.IsGenericType)

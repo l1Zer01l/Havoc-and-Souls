@@ -113,11 +113,11 @@ namespace HavocAndSouls
 
             var mainMenuContainer = new DIContainer(m_rootContainer);
 
-            //var mainMenuEntryPoint = UnityExtention.GetEntryPoint<MainMenuEntryPoint>();
-            //yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
+            var mainMenuEntryPoint = UnityExtention.GetEntryPoint<MainMenuEntryPoint>();
+            yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
 
             uIRootViewModel.HideLoadingScreen();
-            yield return null;
+
             Time.timeScale = 1f;
         }
 
