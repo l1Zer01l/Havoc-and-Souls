@@ -4,7 +4,7 @@
 
 using System;
 
-namespace StalkerZero.Infrastructure
+namespace HavocAndSouls.Infrastructure
 {
     public class DIEntryTransient<T> : DIEntry<T>
     {

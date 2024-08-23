@@ -2,11 +2,12 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using System;
+using HavocAndSouls.Infrastructure;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-namespace StalkerZero.Infrastructure
+namespace HavocAndSouls
 {
     public class DIContainer
     {
