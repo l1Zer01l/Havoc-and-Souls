@@ -64,6 +64,7 @@ namespace HavocAndSouls
             //----------- After Load Service ------------------
              
         }
+
         private void RegisterViewModel(DIContainer container)
         {
             container.RegisterSingleton<IUIRootViewModel>(factory => new UIRootViewModel());
@@ -127,15 +128,13 @@ namespace HavocAndSouls
 
             var gamePlayContainer = new DIContainer(m_rootContainer);
 
-            //var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
-            //yield return gamePlayEntryPoint.Intialization(gamePlayContainer);
+            var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
+            yield return gamePlayEntryPoint.Intialization(gamePlayContainer);
 
             uIRootViewModel.HideLoadingScreen();
-            yield return null;
+            
             Time.timeScale = 1f;
         }
-
-
 
     }
 }

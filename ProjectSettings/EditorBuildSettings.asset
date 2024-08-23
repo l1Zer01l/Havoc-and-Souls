@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/HavocAndSouls/Scenes/MainMenu.unity
     guid: 7307004d116fea24ba258d3f35a63bc6
+  - enabled: 1
+    path: Assets/HavocAndSouls/Scenes/GamePlay.unity
+    guid: d827e03a8af268149bf65126cca91316
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
