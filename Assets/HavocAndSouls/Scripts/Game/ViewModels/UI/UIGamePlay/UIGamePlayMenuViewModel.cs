@@ -4,8 +4,6 @@
 
 using HavocAndSouls.Infrastructure.Reactive;
 using HavocAndSouls.Infrastructure.MVVM;
-using HavocAndSouls.Infrastructure;
-using HavocAndSouls.Services;
 using System;
 
 namespace HavocAndSouls
@@ -15,14 +13,12 @@ namespace HavocAndSouls
         public ReactiveProperty<bool> IsOpenMenu { get; private set; } = new ();
         public IUISettingsViewModel MenuSettingsViewModel { get; private set; }
 
-        private SceneService m_sceneService;
-        private Coroutines m_coroutines;
         private Action m_closeMenuPanelCallBack;
+        private Action<object> m_loadMainMenuCallBack;
 
-        public UIGamePlayMenuViewModel(SceneService sceneSerivce, Coroutines coroutines, Action closeMenuPanelCallBack)
+        public UIGamePlayMenuViewModel(Action<object> loadMainMenuCallBack, Action closeMenuPanelCallBack)
         {
-            m_sceneService = sceneSerivce;
-            m_coroutines = coroutines;
+            m_loadMainMenuCallBack = loadMainMenuCallBack;
             m_closeMenuPanelCallBack = closeMenuPanelCallBack;
 
             MenuSettingsViewModel = new UISettingsViewModel(CloseSettings);
@@ -45,7 +41,7 @@ namespace HavocAndSouls
         [ReactiveMethod]
         public void ExitGame(object sender)
         {
-            m_coroutines.StartCoroutine(m_sceneService.LoadMenu());
+            m_loadMainMenuCallBack?.Invoke(sender);
         }
 
         private void CloseSettings()

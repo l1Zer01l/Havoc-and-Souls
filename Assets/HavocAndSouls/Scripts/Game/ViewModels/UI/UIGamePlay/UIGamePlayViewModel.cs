@@ -4,9 +4,8 @@
 
 using HavocAndSouls.Infrastructure.Reactive;
 using HavocAndSouls.Infrastructure.MVVM;
-using HavocAndSouls.Infrastructure;
-using HavocAndSouls.Services;
 using UnityEngine;
+using System;
 
 namespace HavocAndSouls
 {
@@ -17,9 +16,9 @@ namespace HavocAndSouls
         [SubViewModel(typeof(UIGamePlayMenuViewModel))]
         public IUIGamePlayMenuViewModel MenuViewModel { get; private set; }
 
-        public UIGamePlayViewModel(DIContainer container)
+        public UIGamePlayViewModel(Action<object> loadMainMenuCallBack)
         {
-            MenuViewModel = new UIGamePlayMenuViewModel(container.Resolve<SceneService>(), container.Resolve<Coroutines>(), CloseMenuPanel);
+            MenuViewModel = new UIGamePlayMenuViewModel(loadMainMenuCallBack, CloseMenuPanel);
             CloseMenuPanel();
         }
 

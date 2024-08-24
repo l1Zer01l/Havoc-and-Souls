@@ -20,7 +20,7 @@ namespace HavocAndSouls.Infrastructure.Reactive
 
         public void SetValue(object sender, T value)
         {
-            if (m_value.Equals(value))
+            if (m_value != null && m_value.Equals(value))
                 return;
 
             m_value = value;

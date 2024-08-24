@@ -2,6 +2,7 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
+using HavocAndSouls.Infrastructure.Reactive;
 using HavocAndSouls.Infrastructure;
 using UnityEngine.SceneManagement;
 using HavocAndSouls.Services;
@@ -51,8 +52,8 @@ namespace HavocAndSouls
 #else
                 Application.Quit();
 #endif
-
-            m_coroutines.StartCoroutine(LoadAndStartMainMenu());
+            var mainMenuDefaultEnterParams = new MainMenuEnterParams("Default");
+            m_coroutines.StartCoroutine(LoadAndStartMainMenu(mainMenuDefaultEnterParams));
         }
 
         private void RegisterService(DIContainer container)
@@ -83,22 +84,28 @@ namespace HavocAndSouls
 
         }
 
-        private void OnLoadScene(Scene scene, LoadSceneMode mode)
+        private void OnLoadScene(Scene scene, LoadSceneMode mode, SceneEnterParams sceneEnterParams)
         {
             var sceneName = scene.name;
 
             if (sceneName.Equals(SceneService.BOOT_STRAP_SCENE))
                 LoadBootStrap();
             else if (sceneName.Equals(SceneService.MAIN_MENU_SCENE))
-                m_coroutines.StartCoroutine(LoadMainMenu());
+                m_coroutines.StartCoroutine(LoadMainMenu(sceneEnterParams));
             else if (sceneName.Equals(SceneService.GAMEPLAY_SCENE))
-                m_coroutines.StartCoroutine(LoadGamePlay());
+                m_coroutines.StartCoroutine(LoadGamePlay(sceneEnterParams));
         }
 
-        private IEnumerator LoadAndStartMainMenu()
+        private IEnumerator LoadAndStartMainMenu(MainMenuEnterParams mainMenuEnterParams)
         {
             var sceneService = m_rootContainer.Resolve<SceneService>();
-            yield return sceneService.LoadMenu();
+            yield return sceneService.LoadMenu(mainMenuEnterParams);
+        }
+
+        private IEnumerator LoadAndStartGamePlay(GamePlayEnterParams gamePlayEnterParams)
+        {
+            var sceneService = m_rootContainer.Resolve<SceneService>();
+            yield return sceneService.LoadGame(gamePlayEnterParams);
         }
 
         private void LoadBootStrap()
@@ -108,28 +115,38 @@ namespace HavocAndSouls
             uIRootViewModel.ShowLoadingScreen();
         }
 
-        private IEnumerator LoadMainMenu()
+        private IEnumerator LoadMainMenu(SceneEnterParams sceneEnterParams)
         {
             var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
 
             var mainMenuContainer = new DIContainer(m_rootContainer);
 
             var mainMenuEntryPoint = UnityExtention.GetEntryPoint<MainMenuEntryPoint>();
-            yield return mainMenuEntryPoint.Intialization(mainMenuContainer);
+            yield return mainMenuEntryPoint.Intialization(mainMenuContainer, sceneEnterParams);
+
+            mainMenuEntryPoint.Run().Subscribe(ActionToObserver.Map<SceneExitParams>(sceneExitParams =>
+            {
+                m_coroutines.StartCoroutine(LoadAndStartGamePlay(sceneExitParams.TargetEnterParams.As<GamePlayEnterParams>()));
+            }));
 
             uIRootViewModel.HideLoadingScreen();
 
             Time.timeScale = 1f;
         }
 
-        private IEnumerator LoadGamePlay()
+        private IEnumerator LoadGamePlay(SceneEnterParams sceneEnterParams)
         {
             var uIRootViewModel = m_rootContainer.Resolve<IUIRootViewModel>();
 
             var gamePlayContainer = new DIContainer(m_rootContainer);
 
             var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
-            yield return gamePlayEntryPoint.Intialization(gamePlayContainer);
+            yield return gamePlayEntryPoint.Intialization(gamePlayContainer, sceneEnterParams);
+
+            gamePlayEntryPoint.Run().Subscribe(ActionToObserver.Map<SceneExitParams>(sceneExitParams =>
+            {
+                m_coroutines.StartCoroutine(LoadAndStartMainMenu(sceneExitParams.TargetEnterParams.As<MainMenuEnterParams>()));
+            }));
 
             uIRootViewModel.HideLoadingScreen();
             

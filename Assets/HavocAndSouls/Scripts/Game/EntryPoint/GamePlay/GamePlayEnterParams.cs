@@ -2,14 +2,14 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using HavocAndSouls.Infrastructure.Reactive;
-using System.Collections;
 
 namespace HavocAndSouls
 {
-    public interface IEntryPoint
+    public class GamePlayEnterParams : SceneEnterParams
     {
-        IEnumerator Intialization(DIContainer parentContainer, SceneEnterParams sceneEnterParams);
-        IObservable<SceneExitParams> Run();
+        public GamePlayEnterParams()
+        {
+
+        }
     }
 }

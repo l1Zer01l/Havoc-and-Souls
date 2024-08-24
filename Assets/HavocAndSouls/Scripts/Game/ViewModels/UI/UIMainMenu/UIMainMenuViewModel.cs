@@ -4,8 +4,7 @@
 
 using HavocAndSouls.Infrastructure.Reactive;
 using HavocAndSouls.Infrastructure.MVVM;
-using HavocAndSouls.Infrastructure;
-using HavocAndSouls.Services;
+using System;
 
 namespace HavocAndSouls
 {
@@ -15,12 +14,10 @@ namespace HavocAndSouls
 
         public IUISettingsViewModel UISettingsViewModel { get; private set; }
 
-        private SceneService m_sceneService;
-        private Coroutines m_coroutines;
-        public UIMainMenuViewModel(SceneService sceneService, Coroutines coroutines)
+        private Action<object> m_startGameCallBack;
+        public UIMainMenuViewModel(Action<object> startGameCallBack)
         {
-            m_coroutines = coroutines;
-            m_sceneService = sceneService;
+            m_startGameCallBack = startGameCallBack;
             UISettingsViewModel = new UISettingsViewModel(OnCloseSettings);
             IsOpenMenuPanel.SetValue(this, true);
         }
@@ -28,7 +25,7 @@ namespace HavocAndSouls
         [ReactiveMethod]
         public void StartGame(object sender)
         {
-            m_coroutines.StartCoroutine(m_sceneService.LoadGame());          
+            m_startGameCallBack?.Invoke(sender);
         }
 
         [ReactiveMethod]
