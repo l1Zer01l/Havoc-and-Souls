@@ -13,12 +13,12 @@ namespace HavocAndSouls
         public ReactiveProperty<bool> IsOpenMenuSettings { get; private set; } = new();
 
         private Action m_closeSettingsCallBack;
-        private IBinding OnCloseSettingsBinding;
+        private IBinding m_onCloseSettingsBinding;
 
-        public UISettingsViewModel(Action CloseSettingsCallBack = null)
+        public UISettingsViewModel(Action closeSettingsCallBack = null)
         {
-            m_closeSettingsCallBack = CloseSettingsCallBack;
-            OnCloseSettingsBinding = IsOpenMenuSettings.Subscribe(ActionToObserver.Map<bool>(OnCloseSettingsCallBack));
+            m_closeSettingsCallBack = closeSettingsCallBack;
+            m_onCloseSettingsBinding = IsOpenMenuSettings.Subscribe(ActionToObserver.Map<bool>(OnCloseSettingsCallBack));
         }
 
         [ReactiveMethod]
@@ -42,7 +42,7 @@ namespace HavocAndSouls
 
         public void Dispose()
         {
-            OnCloseSettingsBinding.Dispose();
+            m_onCloseSettingsBinding.Dispose();
         }
 
         private void OnCloseSettingsCallBack(bool value)

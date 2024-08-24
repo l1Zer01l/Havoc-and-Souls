@@ -10,6 +10,7 @@ namespace HavocAndSouls.Services
     {
         public const string PREFAB_UI_ROOT = "UI/UIRoot";
         public const string PREFAB_UI_MAIN_MENU = "UI/UIMainMenu";
+        public const string PREFAB_UI_GAME_PLAY = "UI/UIGamePlay";
 
         public LoadService()
         {

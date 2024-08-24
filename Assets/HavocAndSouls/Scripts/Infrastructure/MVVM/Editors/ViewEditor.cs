@@ -132,13 +132,14 @@ namespace HavocAndSouls.Infrastructure.MVVM.Editors
 
         private void DefineViewModelsInParent()
         {
-            var viewModelTypesInParent = GetViewModelType(m_parentView.ViewModelTypeFullName).GetProperties()
-                                                         .Where(property => typeof(IViewModel).IsAssignableFrom(property.PropertyType));
+            var viewModelPropertyInParent = GetViewModelType(m_parentView.ViewModelTypeFullName).GetProperties()
+                                                         .Where(property => typeof(IViewModel).IsAssignableFrom(property.PropertyType))
+                                                         .Where(property => property.GetAttribute(typeof(SubViewModelAttribute)) != null);
             m_viewModelNames.Clear();
             m_viewModelNames[MVVMConstant.NONE] = null;
-            foreach (var viewModelType in viewModelTypesInParent)
-            {
-                m_viewModelNames[viewModelType.Name] = viewModelType.Name;
+            foreach (var viewModelProperty in viewModelPropertyInParent)
+            {                             
+                m_viewModelNames[viewModelProperty.Name] = viewModelProperty.Name;
             }
         }
 
@@ -264,8 +265,8 @@ namespace HavocAndSouls.Infrastructure.MVVM.Editors
             {
                 var parentViewModelType = GetViewModelType(parentViewModelTypeFullName);
                 var property = parentViewModelType.GetProperty(propertyName);
-
-                return property.PropertyType;
+                var attribute = property.GetAttribute(typeof(SubViewModelAttribute)) as SubViewModelAttribute;
+                return attribute.AcctualType;
             }
 
             return null;

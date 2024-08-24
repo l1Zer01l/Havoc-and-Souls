@@ -6,12 +6,11 @@ using HavocAndSouls.Infrastructure.MVVM;
 
 namespace HavocAndSouls
 {
-    public interface IUIMainMenuViewModel : IViewModel
-    {
-        void StartGame(object sender);
-        
+    public interface IUIGamePlayMenuViewModel : IViewModel
+    {           
+        void ContinueGame(object sender);       
         void OpenSettings(object sender);
-        
         void ExitGame(object sender);
+
     }
 }
