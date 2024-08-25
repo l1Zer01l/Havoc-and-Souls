@@ -15,10 +15,10 @@ namespace HavocAndSouls
         public IUISettingsViewModel UISettingsViewModel { get; private set; }
 
         private Action<object> m_startGameCallBack;
-        public UIMainMenuViewModel(Action<object> startGameCallBack)
+        public UIMainMenuViewModel(IGameStateProvider gameStateProvider, Action<object> startGameCallBack)
         {
             m_startGameCallBack = startGameCallBack;
-            UISettingsViewModel = new UISettingsViewModel(OnCloseSettings);
+            UISettingsViewModel = new UISettingsViewModel(gameStateProvider, OnCloseSettings);
             IsOpenMenuPanel.SetValue(this, true);
         }
 

@@ -16,12 +16,13 @@ namespace HavocAndSouls
         private Action m_closeMenuPanelCallBack;
         private Action<object> m_loadMainMenuCallBack;
 
-        public UIGamePlayMenuViewModel(Action<object> loadMainMenuCallBack, Action closeMenuPanelCallBack)
+        public UIGamePlayMenuViewModel(IGameStateProvider gameStateProvider, 
+                                       Action<object> loadMainMenuCallBack, Action closeMenuPanelCallBack)
         {
             m_loadMainMenuCallBack = loadMainMenuCallBack;
             m_closeMenuPanelCallBack = closeMenuPanelCallBack;
 
-            MenuSettingsViewModel = new UISettingsViewModel(CloseSettings);
+            MenuSettingsViewModel = new UISettingsViewModel(gameStateProvider, CloseSettings);
             IsOpenMenu.SetValue(this, true);
         }
 

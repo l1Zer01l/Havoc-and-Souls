@@ -17,7 +17,8 @@ namespace HavocAndSouls
             var gamePlayEnterParams = sceneEnterParams.As<GamePlayEnterParams>();
 
             m_container = parentContainer;
-            m_container.RegisterSingleton<IUIGamePlayViewModel>(factory => new UIGamePlayViewModel(LoadMainMenuParams));
+            m_container.RegisterSingleton<IUIGamePlayViewModel>(factory => new UIGamePlayViewModel(factory.Resolve<IGameStateProvider>(), 
+                                                                                                   LoadMainMenuParams));
 
             GamePlayRegistration.Register(m_container, gamePlayEnterParams);
             GamePlayViewModelRegistration.Register(m_container);

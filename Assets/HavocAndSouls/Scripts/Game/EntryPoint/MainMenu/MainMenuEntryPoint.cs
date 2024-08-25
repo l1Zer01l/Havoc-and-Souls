@@ -3,7 +3,6 @@
 \**************************************************************************/
 
 using HavocAndSouls.Infrastructure.Reactive;
-using HavocAndSouls.Services;
 using System.Collections;
 using UnityEngine;
 
@@ -18,7 +17,8 @@ namespace HavocAndSouls
             var mainMenuEnterParams = sceneEnterParams.As<MainMenuEnterParams>();
 
             m_container = parentContainer;
-            m_container.RegisterSingleton<IUIMainMenuViewModel>(factory => new UIMainMenuViewModel(LoadGamePlayParams));
+            m_container.RegisterSingleton<IUIMainMenuViewModel>(factory => new UIMainMenuViewModel(factory.Resolve<IGameStateProvider>(), 
+                                                                                                   LoadGamePlayParams));
 
             MainMenuRegistration.Register(m_container, mainMenuEnterParams);
             MainMenuViewModelRegistration.Register(m_container);

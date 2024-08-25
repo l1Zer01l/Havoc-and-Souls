@@ -18,6 +18,7 @@ namespace HavocAndSouls
         private DIContainer m_rootContainer;
         private Coroutines m_coroutines;
 
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Start()
         {
@@ -39,6 +40,12 @@ namespace HavocAndSouls
             m_coroutines = new GameObject("[COROUTINES]").AddComponent<Coroutines>();
             Object.DontDestroyOnLoad(m_coroutines.gameObject);
             m_rootContainer.RegisterInstance(m_coroutines);
+
+            //Load Settings
+            var gameStateProvider = new PlayerPrefsGameStateProvider();
+            gameStateProvider.LoadAudioSettingsState();
+            m_rootContainer.RegisterInstance<IGameStateProvider>(gameStateProvider);
+
         }
 
         private void Init()

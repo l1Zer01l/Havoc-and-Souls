@@ -16,9 +16,9 @@ namespace HavocAndSouls
         [SubViewModel(typeof(UIGamePlayMenuViewModel))]
         public IUIGamePlayMenuViewModel MenuViewModel { get; private set; }
 
-        public UIGamePlayViewModel(Action<object> loadMainMenuCallBack)
+        public UIGamePlayViewModel(IGameStateProvider gameStateProvider, Action<object> loadMainMenuCallBack)
         {
-            MenuViewModel = new UIGamePlayMenuViewModel(loadMainMenuCallBack, CloseMenuPanel);
+            MenuViewModel = new UIGamePlayMenuViewModel(gameStateProvider, loadMainMenuCallBack, CloseMenuPanel);
             CloseMenuPanel();
         }
 

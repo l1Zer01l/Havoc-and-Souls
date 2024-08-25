@@ -18,6 +18,12 @@ namespace HavocAndSouls.Infrastructure.Reactive
             m_observers = new List<IObserver<T>>();
         }
 
+        public ReactiveProperty(T value)
+        {
+            m_value = value;
+            m_observers = new List<IObserver<T>>();
+        }
+
         public IBinding Subscribe(IObserver<T> observer)
         {
             if (!m_observers.Contains(observer))
