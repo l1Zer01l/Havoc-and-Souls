@@ -25,7 +25,7 @@ namespace HavocAndSouls.Infrastructure.MVVM.Binders
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as Reactive.IObservable<T>;
-            var handle = observable.Subscribe(ActionToObserver.Map(callback));
+            var handle = observable.Subscribe(callback);
             return handle;
         }
 
@@ -33,7 +33,7 @@ namespace HavocAndSouls.Infrastructure.MVVM.Binders
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as Reactive.IObservable<T>;
-            var handle = observable.Subscribe(ActionToObserver.Map(callback));
+            var handle = observable.Subscribe(callback);
             return handle;
         }
 
@@ -41,7 +41,7 @@ namespace HavocAndSouls.Infrastructure.MVVM.Binders
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as IObservableCollection<T>;
-            var handle = observable.Subscribe(ActionToObserverCollection.Map(actionAdded, actionRemoved, actionClear));
+            var handle = observable.Subscribe(actionAdded, actionRemoved, actionClear);
             return handle;
         }
 
@@ -49,7 +49,7 @@ namespace HavocAndSouls.Infrastructure.MVVM.Binders
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var observable = propertyInfo.GetValue(viewModel) as IObservableCollection<T>;
-            var handle = observable.Subscribe(ActionToObserverCollection.Map(actionAdded, actionRemoved, actionClear));
+            var handle = observable.Subscribe(actionAdded, actionRemoved, actionClear);
             return handle;
         }
     }

@@ -4,7 +4,7 @@
 
 namespace HavocAndSouls.Infrastructure.Reactive
 {
-    public class SingleReactiveProperty <T> : IReactiveProperty<T>
+    public class SingleReactiveProperty<T> : IReactiveProperty<T>
     {
         public T Value => m_value;
 
@@ -17,15 +17,7 @@ namespace HavocAndSouls.Infrastructure.Reactive
             m_observer = null;
         }
 
-        public void SetValue(object sender, T newValue)
-        {
-            if (newValue.Equals(m_value))
-                return;
-
-            m_value = newValue;
-            OnChanged(sender, newValue);
-        }
-
+        
         public IBinding Subscribe(IObserver<T> observer)
         {
             if (m_observer != null)
@@ -48,6 +40,15 @@ namespace HavocAndSouls.Infrastructure.Reactive
             m_observer = null;
         }
 
+        public void SetValue(object sender, T newValue)
+        {
+            if (newValue.Equals(m_value))
+                return;
+
+            m_value = newValue;
+            OnChanged(sender, newValue);
+        }
+
         private void OnChanged(object sender, T newValue)
         {
             if (m_observer != null)
@@ -55,5 +56,6 @@ namespace HavocAndSouls.Infrastructure.Reactive
                 m_observer?.NotifyObservableChanged(sender, newValue);
             }
         }
+        
     }
 }

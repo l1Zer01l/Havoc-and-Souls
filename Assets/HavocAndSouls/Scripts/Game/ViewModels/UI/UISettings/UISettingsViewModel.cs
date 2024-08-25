@@ -18,7 +18,7 @@ namespace HavocAndSouls
         public UISettingsViewModel(Action closeSettingsCallBack = null)
         {
             m_closeSettingsCallBack = closeSettingsCallBack;
-            m_onCloseSettingsBinding = IsOpenMenuSettings.Subscribe(ActionToObserver.Map<bool>(OnCloseSettingsCallBack));
+            m_onCloseSettingsBinding = IsOpenMenuSettings.Subscribe(OnCloseSettingsCallBack);
         }
 
         [ReactiveMethod]

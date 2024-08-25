@@ -3,7 +3,6 @@
 \**************************************************************************/
 
 using HavocAndSouls.Infrastructure.Reactive;
-using HavocAndSouls.Services;
 using System.Collections;
 using UnityEngine;
 
@@ -12,14 +11,18 @@ namespace HavocAndSouls
     public class GamePlayEntryPoint : MonoBehaviour, IEntryPoint
     {
         private DIContainer m_container;
-        private ReactiveProperty<GamePlayExitParams> m_sceneExitParams = new ();
+        private SingleReactiveProperty<GamePlayExitParams> m_sceneExitParams = new ();
         public IEnumerator Intialization(DIContainer parentContainer, SceneEnterParams sceneEnterParams)
         {
-            m_container = parentContainer;
+            var gamePlayEnterParams = sceneEnterParams.As<GamePlayEnterParams>();
 
-            RegisterService(m_container);
-            RegisterViewModel(m_container);
-            BindView(m_container);
+            m_container = parentContainer;
+            m_container.RegisterSingleton<IUIGamePlayViewModel>(factory => new UIGamePlayViewModel(LoadMainMenuParams));
+
+            GamePlayRegistration.Register(m_container, gamePlayEnterParams);
+            GamePlayViewModelRegistration.Register(m_container);
+            GamePlayViewModelRegistration.BindView(m_container);
+
             yield return null;
         }
 
@@ -28,30 +31,6 @@ namespace HavocAndSouls
             return m_sceneExitParams;
         }
 
-        private void RegisterService(DIContainer container)
-        {
-
-        }
-
-        private void RegisterViewModel(DIContainer container)
-        {
-            container.RegisterSingleton<IUIGamePlayViewModel>(factory => new UIGamePlayViewModel(LoadMainMenuParams));
-        }
-
-        private void BindView(DIContainer container)
-        {
-            var loadService = container.Resolve<LoadService>();
-
-            //Load and Bind UIGamePlay
-            var uIGamePlayPrefab = loadService.LoadPrefab<UIGamePlayView>(LoadService.PREFAB_UI_GAME_PLAY);
-            var uIGamePlayView = Object.Instantiate(uIGamePlayPrefab);
-            var uIGamePlayViewModel = container.Resolve<IUIGamePlayViewModel>();
-            var uIRootViewModel = container.Resolve<IUIRootViewModel>();
-
-            uIGamePlayView.Bind(uIGamePlayViewModel);
-            uIRootViewModel.AttachSceneUI(uIGamePlayView);
-
-        }
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))

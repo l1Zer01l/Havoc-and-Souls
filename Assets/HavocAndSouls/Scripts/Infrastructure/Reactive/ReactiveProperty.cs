@@ -18,15 +18,6 @@ namespace HavocAndSouls.Infrastructure.Reactive
             m_observers = new List<IObserver<T>>();
         }
 
-        public void SetValue(object sender, T value)
-        {
-            if (m_value != null && m_value.Equals(value))
-                return;
-
-            m_value = value;
-            OnChanged(sender, value);
-        }
-
         public IBinding Subscribe(IObserver<T> observer)
         {
             if (!m_observers.Contains(observer))
@@ -44,6 +35,16 @@ namespace HavocAndSouls.Infrastructure.Reactive
                 m_observers.Remove(observer);
             }
         }
+
+        public void SetValue(object sender, T value)
+        {
+            if (m_value != null && m_value.Equals(value))
+                return;
+
+            m_value = value;
+            OnChanged(sender, value);
+        }
+
         private void OnChanged(object sender, T newValue)
         {
             foreach (var observer in m_observers)

@@ -124,10 +124,10 @@ namespace HavocAndSouls
             var mainMenuEntryPoint = UnityExtention.GetEntryPoint<MainMenuEntryPoint>();
             yield return mainMenuEntryPoint.Intialization(mainMenuContainer, sceneEnterParams);
 
-            mainMenuEntryPoint.Run().Subscribe(ActionToObserver.Map<SceneExitParams>(sceneExitParams =>
+            mainMenuEntryPoint.Run().Subscribe(sceneExitParams =>
             {
                 m_coroutines.StartCoroutine(LoadAndStartGamePlay(sceneExitParams.TargetEnterParams.As<GamePlayEnterParams>()));
-            }));
+            });
 
             uIRootViewModel.HideLoadingScreen();
 
@@ -143,10 +143,10 @@ namespace HavocAndSouls
             var gamePlayEntryPoint = UnityExtention.GetEntryPoint<GamePlayEntryPoint>();
             yield return gamePlayEntryPoint.Intialization(gamePlayContainer, sceneEnterParams);
 
-            gamePlayEntryPoint.Run().Subscribe(ActionToObserver.Map<SceneExitParams>(sceneExitParams =>
+            gamePlayEntryPoint.Run().Subscribe(sceneExitParams =>
             {
                 m_coroutines.StartCoroutine(LoadAndStartMainMenu(sceneExitParams.TargetEnterParams.As<MainMenuEnterParams>()));
-            }));
+            });
 
             uIRootViewModel.HideLoadingScreen();
             
