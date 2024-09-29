@@ -3,6 +3,7 @@
 \**************************************************************************/
 
 using HavocAndSouls.Infrastructure.MVVM;
+using System;
 
 namespace HavocAndSouls
 {

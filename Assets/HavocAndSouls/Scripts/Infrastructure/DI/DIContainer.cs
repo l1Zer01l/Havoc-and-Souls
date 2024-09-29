@@ -9,7 +9,7 @@ using System;
 
 namespace HavocAndSouls
 {
-    public class DIContainer
+    public class DIContainer : IDisposable
     {
         private DIContainer m_parentContainer;
 
@@ -24,37 +24,37 @@ namespace HavocAndSouls
             m_parentContainer = parentContainer;
         }
 
-        public void Register<T>(Func<DIContainer, T> factory)
+        public void Register<T>(Func<DIContainer, T> factory) where T : IDisposable
         {
             Register(("", typeof(T)), factory);
         }
 
-        public void Register<T>(Func<DIContainer, T> factory, string tag)
+        public void Register<T>(Func<DIContainer, T> factory, string tag) where T : IDisposable
         {
             Register((tag, typeof(T)), factory);
         }
 
-        public void RegisterSingleton<T>(Func<DIContainer, T> factory)
+        public void RegisterSingleton<T>(Func<DIContainer, T> factory) where T : IDisposable
         {
             RegisterSingleton(("", typeof(T)), factory);
         }
 
-        public void RegisterSingleton<T>(Func<DIContainer, T> factory, string tag)
+        public void RegisterSingleton<T>(Func<DIContainer, T> factory, string tag) where T : IDisposable
         {
             RegisterSingleton((tag, typeof(T)), factory);
         }
 
-        public void RegisterInstance<T>(T instance)
+        public void RegisterInstance<T>(T instance) where T : IDisposable
         {
             RegisterInstance(("", typeof(T)), _ => instance);
         }
 
-        public void RegisterInstance<T>(T instance, string tag)
+        public void RegisterInstance<T>(T instance, string tag) where T : IDisposable
         {
             RegisterInstance((tag, typeof(T)), _ => instance);
         }
 
-        public T Resolve<T>(string tag = "")
+        public T Resolve<T>(string tag = "") where T : IDisposable
         {
             var key = (tag, typeof(T));
 
@@ -73,7 +73,7 @@ namespace HavocAndSouls
             return result;
         }
 
-        private T FindFactory<T>((string, Type) key)
+        private T FindFactory<T>((string, Type) key) where T : IDisposable
         {
             T result;
             if (!m_container.ContainsKey(key))
@@ -89,7 +89,7 @@ namespace HavocAndSouls
             return result;
         }
 
-        private void Register<T>((string, Type) key, Func<DIContainer, T> factory)
+        private void Register<T>((string, Type) key, Func<DIContainer, T> factory) where  T : IDisposable
         {
             if (CheckKey<T>(key))
                 return;
@@ -98,7 +98,7 @@ namespace HavocAndSouls
             m_container[key] = dIEntry;
         }
 
-        private void RegisterSingleton<T>((string, Type) key, Func<DIContainer, T> factory)
+        private void RegisterSingleton<T>((string, Type) key, Func<DIContainer, T> factory) where T : IDisposable
         {
             if (CheckKey<T>(key))
                 return;
@@ -107,9 +107,9 @@ namespace HavocAndSouls
             m_container[key] = dIEntry;
         }
 
-        private void RegisterInstance<T>((string, Type) key, Func<DIContainer, T> factory)
+        private void RegisterInstance<T>((string, Type) key, Func<DIContainer, T> factory) where T : IDisposable
         {
-            Register(key, factory);    
+            RegisterSingleton(key, factory);    
         }
 
         private bool CheckKey<T>((string, Type) key)
@@ -123,6 +123,14 @@ namespace HavocAndSouls
             }
 #endif
             return result;
+        }
+
+        public void Dispose()
+        {
+            foreach (var dIEntry in m_container)
+            {
+                dIEntry.Value.Dispose();
+            }
         }
     }
 }

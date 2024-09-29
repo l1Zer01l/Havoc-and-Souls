@@ -7,7 +7,7 @@ using HavocAndSouls.Infrastructure.Reactive;
 
 namespace HavocAndSouls
 {
-    public interface IGameStateProvider
+    public interface IGameStateProvider : System.IDisposable
     {
         public IAudioSettingsStateProxy AudioSettingsState { get; }
 

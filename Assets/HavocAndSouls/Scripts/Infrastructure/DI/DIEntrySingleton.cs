@@ -6,7 +6,7 @@ using System;
 
 namespace HavocAndSouls.Infrastructure
 {
-    public class DIEntrySingleton<T> : DIEntry<T>
+    public class DIEntrySingleton<T> : DIEntry<T> where T : IDisposable
     {
         private T m_instance;
         public DIEntrySingleton(DIContainer container, Func<DIContainer, T> factory) : base(container, factory) { }
@@ -18,5 +18,12 @@ namespace HavocAndSouls.Infrastructure
 
             return m_instance;
         }
+
+        protected override void Disposed()
+        {
+            base.Disposed();
+            m_instance.Dispose();
+        }
+
     }
 }

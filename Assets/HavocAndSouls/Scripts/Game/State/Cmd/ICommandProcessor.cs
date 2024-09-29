@@ -4,11 +4,10 @@
 
 namespace HavocAndSouls
 {
-    public static class GamePlayRegistration
+    public interface ICommandProcessor
     {
-        public static void Register(DIContainer container, GamePlayEnterParams gamePlayEnterParams)
-        {
+        void RegisterHandler<TCommand>(ICommandHandler<TCommand> handler) where TCommand : ICommand;
 
-        }
+        bool Process<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

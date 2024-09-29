@@ -2,33 +2,31 @@
    Copyright SkyForge Corporation. All Rights Reserved.
 \**************************************************************************/
 
-using HavocAndSouls.Infrastructure.Reactive;
-using HavocAndSouls.Infrastructure.MVVM;
 using System;
+using HavocAndSouls.Infrastructure.MVVM;
+using HavocAndSouls.Infrastructure.Reactive;
 
 namespace HavocAndSouls
 {
-    public class UISettingsViewModel : IUISettingsViewModel, IDisposable
+    public class UISettingsViewModel : IUISettingsViewModel
     {
         public ReactiveProperty<bool> IsOpenMenuSettings { get; private set; } = new();
 
-        public ReactiveProperty<float> MusicVolume { get; private set; } = new();
-        public ReactiveProperty<float> SFXVolume { get; private set; } = new();
-        public ReactiveProperty<float> VoiceVolume { get; private set; } = new();
+        public ReactiveProperty<float> MusicVolume { get; private set; }
+        public ReactiveProperty<float> SFXVolume { get; private set; }
+        public ReactiveProperty<float> VoiceVolume { get; private set; }
 
         private Action m_closeSettingsCallBack;
         private IBinding m_onCloseSettingsBinding;
         private IGameStateProvider m_gameStateProvider;
+
         public UISettingsViewModel(IGameStateProvider gameStateProvider, Action closeSettingsCallBack = null)
         {
             m_gameStateProvider = gameStateProvider;
-            MusicVolume.SetValue(m_gameStateProvider, m_gameStateProvider.AudioSettingsState.MusicVolume.Value);
-            SFXVolume.SetValue(m_gameStateProvider, m_gameStateProvider.AudioSettingsState.SFXVolume.Value);
-            VoiceVolume.SetValue(m_gameStateProvider, m_gameStateProvider.AudioSettingsState.VoiceVolume.Value);
 
-            MusicVolume.Subscribe(newValue => m_gameStateProvider.AudioSettingsState.MusicVolume.SetValue(null, newValue));
-            SFXVolume.Subscribe(newValue => m_gameStateProvider.AudioSettingsState.SFXVolume.SetValue(null, newValue));
-            VoiceVolume.Subscribe(newValue => m_gameStateProvider.AudioSettingsState.VoiceVolume.SetValue(null, newValue));
+            MusicVolume = m_gameStateProvider.AudioSettingsState.MusicVolume;
+            SFXVolume = m_gameStateProvider.AudioSettingsState.SFXVolume;
+            VoiceVolume = m_gameStateProvider.AudioSettingsState.VoiceVolume;
 
             m_closeSettingsCallBack = closeSettingsCallBack;
             m_onCloseSettingsBinding = IsOpenMenuSettings.Subscribe(OnCloseSettingsCallBack);
@@ -44,7 +42,8 @@ namespace HavocAndSouls
         [ReactiveMethod]
         public void CloseSettings(object sender)
         {
-            IsOpenMenuSettings.SetValue(sender, false);       
+            IsOpenMenuSettings.SetValue(sender, false);
+            m_gameStateProvider.LoadAudioSettingsState();          
         }
 
         [ReactiveMethod]
@@ -79,6 +78,6 @@ namespace HavocAndSouls
         {
             if (!value)
                 m_closeSettingsCallBack?.Invoke();   
-        }  
+        }
     }
 }

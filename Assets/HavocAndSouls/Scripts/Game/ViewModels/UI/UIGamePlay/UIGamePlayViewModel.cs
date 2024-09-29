@@ -34,6 +34,9 @@ namespace HavocAndSouls
             Time.timeScale = 1f;
         }
 
-        
+        public void Dispose()
+        {
+            MenuViewModel.Dispose();
+        }
     }
 }

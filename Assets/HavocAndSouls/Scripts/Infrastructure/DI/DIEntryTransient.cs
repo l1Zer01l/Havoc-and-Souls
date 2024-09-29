@@ -6,7 +6,7 @@ using System;
 
 namespace HavocAndSouls.Infrastructure
 {
-    public class DIEntryTransient<T> : DIEntry<T>
+    public class DIEntryTransient<T> : DIEntry<T> where T : IDisposable
     {
         public DIEntryTransient(DIContainer container, Func<DIContainer, T> factory) : base(container, factory) { }
 

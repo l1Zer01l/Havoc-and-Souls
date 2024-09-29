@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371c44e431d23914f880553325387c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_viewModelTypeFullName: 
+  m_viewModelTypeFullName: HavocAndSouls.PlayerViewModel
   m_viewModelPropertyName: 
   m_isParentView: 1
   m_subViews: []
@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb71956a2c3b6d14b962800e47403950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dungeonView: {fileID: 1519791302}
 --- !u!4 &1163980144
 Transform:
   m_ObjectHideFlags: 0
@@ -475,7 +476,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 20
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 23
@@ -549,6 +550,75 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1519791301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1519791303}
+  - component: {fileID: 1519791302}
+  - component: {fileID: 1519791304}
+  m_Layer: 0
+  m_Name: Dungeon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1519791302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519791301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579c66b8e093fc9449c1bfc5cdd20d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_viewModelTypeFullName: HavocAndSouls.DungeonViewModel
+  m_viewModelPropertyName: 
+  m_isParentView: 1
+  m_subViews: []
+  m_childBinders:
+  - {fileID: 1519791304}
+--- !u!4 &1519791303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519791301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519791304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519791301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa271152d72dd148ad7e81f482ed73b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_viewModelTypeFullName: HavocAndSouls.DungeonViewModel
+  m_propertyName: RoomSpawned
+  m_parentTransformSpawnedRoom: {fileID: 1519791303}
+  m_roomSize: 10
+  m_startPosition: {x: 5, y: 5}
+  m_QuadrupleRoomView: {fileID: 460605773513487846, guid: f61b3830b952ca141947e61b4a51e011, type: 3}
 --- !u!1 &2005855749
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,3 +768,4 @@ SceneRoots:
   - {fileID: 65046998}
   - {fileID: 2005855750}
   - {fileID: 1031876278}
+  - {fileID: 1519791303}

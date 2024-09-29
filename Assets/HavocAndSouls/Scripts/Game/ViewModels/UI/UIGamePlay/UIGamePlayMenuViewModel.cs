@@ -49,5 +49,10 @@ namespace HavocAndSouls
         {
             IsOpenMenu.SetValue(null, true);
         }
+
+        public void Dispose()
+        {
+            MenuSettingsViewModel.Dispose();
+        }
     }
 }

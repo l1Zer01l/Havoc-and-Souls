@@ -33,5 +33,10 @@ namespace HavocAndSouls
             SceneUIViews.Clear();
             SceneUIViews.Add(uIViewModel);
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }

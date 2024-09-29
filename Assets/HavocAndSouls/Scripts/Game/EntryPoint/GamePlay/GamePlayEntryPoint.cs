@@ -10,6 +10,9 @@ namespace HavocAndSouls
 {
     public class GamePlayEntryPoint : MonoBehaviour, IEntryPoint
     {
+        
+        [SerializeField] private DungeonView m_dungeonView;
+
         private DIContainer m_container;
         private SingleReactiveProperty<GamePlayExitParams> m_sceneExitParams = new ();
         public IEnumerator Intialization(DIContainer parentContainer, SceneEnterParams sceneEnterParams)
@@ -20,10 +23,14 @@ namespace HavocAndSouls
             m_container.RegisterSingleton<IUIGamePlayViewModel>(factory => new UIGamePlayViewModel(factory.Resolve<IGameStateProvider>(), 
                                                                                                    LoadMainMenuParams));
 
-            GamePlayRegistration.Register(m_container, gamePlayEnterParams);
+            GamePlayServiceRegistration.Register(m_container, gamePlayEnterParams);
             GamePlayViewModelRegistration.Register(m_container);
-            GamePlayViewModelRegistration.BindView(m_container);
+            GamePlayViewRegistration.BindView(m_container);
 
+            var dungeonViewModel = m_container.Resolve<IDungeonViewModel>();
+            m_dungeonView.Bind(dungeonViewModel);
+
+            dungeonViewModel.CreateDungeon(10, 5);
             yield return null;
         }
 
@@ -46,6 +53,11 @@ namespace HavocAndSouls
             var mainMenuEnterParams = new MainMenuEnterParams("Finaly");
             var exitParams = new GamePlayExitParams(mainMenuEnterParams);
             m_sceneExitParams.SetValue(sender, exitParams);
+        }
+
+        private void OnDestroy()
+        {
+            m_container.Dispose();
         }
     }
 }

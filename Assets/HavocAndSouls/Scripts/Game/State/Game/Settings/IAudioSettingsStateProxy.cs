@@ -8,8 +8,10 @@ namespace HavocAndSouls
 {
     public interface IAudioSettingsStateProxy
     {
-        public ReactiveProperty<float> MusicVolume { get; }
-        public ReactiveProperty<float> SFXVolume { get; }
-        public ReactiveProperty<float> VoiceVolume { get; }
+        ReactiveProperty<float> MusicVolume { get; }
+        ReactiveProperty<float> SFXVolume { get; }
+        ReactiveProperty<float> VoiceVolume { get; }
+
+        void Update(AudioSettingsState audioSettingsState);
     }
 }

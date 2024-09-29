@@ -20,9 +20,9 @@ namespace HavocAndSouls
             m_container.RegisterSingleton<IUIMainMenuViewModel>(factory => new UIMainMenuViewModel(factory.Resolve<IGameStateProvider>(), 
                                                                                                    LoadGamePlayParams));
 
-            MainMenuRegistration.Register(m_container, mainMenuEnterParams);
+            MainMenuServiceRegistration.Register(m_container, mainMenuEnterParams);
             MainMenuViewModelRegistration.Register(m_container);
-            MainMenuViewModelRegistration.BindView(m_container);
+            MainMenuViewRegistration.BindView(m_container);
 
             yield return null;
 
@@ -39,6 +39,11 @@ namespace HavocAndSouls
             var gamePlayEnterParams = new GamePlayEnterParams();
             var exitParams = new MainMenuExitParams(gamePlayEnterParams);
             m_sceneExitParams.SetValue(sender, exitParams);
+        }
+
+        private void OnDestroy()
+        {
+            m_container.Dispose();
         }
     }
 }

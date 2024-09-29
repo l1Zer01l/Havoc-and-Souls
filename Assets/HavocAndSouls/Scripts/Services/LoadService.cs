@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HavocAndSouls.Services
 {
-    public class LoadService
+    public class LoadService : System.IDisposable
     {
         public const string PREFAB_UI_ROOT = "UI/UIRoot";
         public const string PREFAB_UI_MAIN_MENU = "UI/UIMainMenu";
@@ -15,6 +15,11 @@ namespace HavocAndSouls.Services
         public LoadService()
         {
 
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         public T LoadPrefab<T>(string path) where T : Object

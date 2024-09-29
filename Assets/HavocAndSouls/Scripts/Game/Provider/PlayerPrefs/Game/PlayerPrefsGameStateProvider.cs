@@ -24,7 +24,10 @@ namespace HavocAndSouls
             {
                 var json = PlayerPrefs.GetString(GAME_AUDIO_SETTINGS_STATE_KEY);
                 m_audioSettingsStateOrigin = JsonUtility.FromJson<AudioSettingsState>(json);
-                AudioSettingsState = new AudioSettingsStateProxy(m_audioSettingsStateOrigin);       
+                if (AudioSettingsState == null)
+                    AudioSettingsState = new AudioSettingsStateProxy(m_audioSettingsStateOrigin);
+                else
+                    AudioSettingsState.Update(m_audioSettingsStateOrigin);
             }
 
             return Observable.Return(AudioSettingsState);
@@ -63,6 +66,11 @@ namespace HavocAndSouls
             };
 
             return new AudioSettingsStateProxy(m_audioSettingsStateOrigin);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

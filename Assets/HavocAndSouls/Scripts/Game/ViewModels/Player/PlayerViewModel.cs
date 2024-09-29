@@ -8,6 +8,9 @@ namespace HavocAndSouls
 {
     public class PlayerViewModel : IPlayerViewModel
     {
-
+        public void Dispose()
+        {
+            
+        }
     }
 }
